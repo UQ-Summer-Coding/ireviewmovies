@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class StaticPagesController {
 
-    @GetMapping("/about")
+    @GetMapping("/home")
     public String aboutPage() {
         return "about";
     }
