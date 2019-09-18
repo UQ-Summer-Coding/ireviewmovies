@@ -1,48 +1,34 @@
 package com.cholnhial.ireviewmovies.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Set;
 
 @Entity
+@Data
+@EqualsAndHashCode(of = {"username", "email"})
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Getter
-    @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    @Getter
-    @Setter
     private String email;
 
     @Column
-    @Getter
-    @Setter
     private String username;
 
     @Column
-    @Getter
-    @Setter
     private String password;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(email, user.email) &&
-                Objects.equals(username, user.username);
-    }
-
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(email, username);
-    }
+    @ManyToMany
+    @JoinTable(
+            name="users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 }
