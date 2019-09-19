@@ -8,7 +8,8 @@ import java.util.Set;
 
 @Entity
 @Data
-@EqualsAndHashCode(of = {"username", "email"})
+@EqualsAndHashCode(of = {"email"})
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 
     @Id
@@ -19,16 +20,17 @@ public class User {
     private String email;
 
     @Column
-    private String username;
+    private String fullName;
 
     @Column
     private String password;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
-            name="users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 }

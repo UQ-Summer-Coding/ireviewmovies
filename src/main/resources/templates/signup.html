@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/layout}">
+
+<head>
+    <title>Layout</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <h1 class="mt-4 text-center">Sign up</h1>
+    <div class="d-flex justify-content-center">
+
+        <form th:action="@{/signup}" th:object="${user}" th:method="post" class="w-25">
+            <div th:if="${param.success}" >
+                <div class="alert alert-info">You've successfully signed up</div>
+            </div>
+            <div th:if="${#fields.hasGlobalErrors()}"  class="alert alert-danger" role="alert">
+                <p th:each="error: ${#fields.globalErrors()}" th:text="${error}">Validation errors</p>
+            </div>
+            <div class="form-group">
+                <label for="userFullName">Full Name</label>
+                <input type="text"
+                       th:field="*{fullName}"
+                       class="form-control"
+                       id="userFullName"
+                       th:classappend="${#fields.hasErrors('fullName')} ? 'is-invalid' : ''"
+                       placeholder="John Doe">
+                <p class="invalid-feedback"
+                   th:each="error: ${#fields.errors('fullName')}"
+                   th:text="${error}">Validation errors</p>
+            </div>
+            <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                       type="email"
+                       th:field="*{email}"
+                       class="form-control"
+                       id="userEmail"
+                       placeholder="john.doe@gmail.com">
+                <p class="invalid-feedback"
+                   th:each="error: ${#fields.errors('email')}" th:text="${error}"></p>
+            </div>
+            <div class="form-group">
+                <label for="userEmailConfirm">Confirm Email</label>
+                <input th:classappend="${#fields.hasErrors('confirmEmail')} ? 'is-invalid' : ''"
+                       type="email"
+                       th:field="*{confirmEmail}"
+                       class="form-control"
+                       id="userEmailConfirm"
+                       placeholder="john.doe@gmail.com">
+                <p class="invalid-feedback"
+                   th:each="error: ${#fields.errors('confirmEmail')}" th:text="${error}">Validation errors</p>
+            </div>
+
+            <div class="form-group">
+                <label for="userPassword">Password</label>
+                <input th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                       type="password"
+                       class="form-control"
+                       id="userPassword"
+                       th:field="*{password}"
+                       placeholder="Password">
+                <p class="invalid-feedback"
+                   th:each="error : ${#fields.errors('password')}"
+                   th:text="${error}">Validation errors</p>
+            </div>
+            <div class="form-group">
+                <label for="userPasswordRepeat">Confirm Password</label>
+                <input th:field="*{confirmPassword}"
+                        th:classappend="${#fields.hasErrors('confirmPassword')} ? 'is-invalid':''"
+                        type="password"
+                       class="form-control"
+                       id="userPasswordRepeat"
+                       placeholder="Password">
+                <p class="invalid-feedback"
+                   th:each="error : ${#fields.errors('confirmPassword')}"
+                   th:text="${error}">Validation errors</p>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign me up!</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
