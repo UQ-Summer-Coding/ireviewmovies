@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: IReviewMovies
+  profiles:
+    active: #spring.profiles.active#
+  flyway:
+    migration
+
