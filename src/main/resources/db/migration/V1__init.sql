@@ -1,5 +1,3 @@
-USE `ireviewmovies`;
-
 DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (

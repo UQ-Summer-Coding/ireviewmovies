@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    container_name: ireviewmovies-mysql
+    environment:
+      MYSQL_DATABASE: ireviewmovies
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    restart: always
+  app:
+    image: cholnhial/ireviewmovies
+    ports:
+      - 8080:8080
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    build:
+      context: .
+    links:
+      - db

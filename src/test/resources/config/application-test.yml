@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: IReviewMovies
+  profiles:
+    active: test
+  test:
+    database:
+      replace: none
+  flyway:
+    enabled: true
+    url: jdbc:mysql://localhost:33306/ireviewmovies-test?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+    user: root
+    password: root
+    schemas: ireviewmovies-test
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://localhost:33306/ireviewmovies-test?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10
+    username: root
+    password: root
+    hikari:
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+
