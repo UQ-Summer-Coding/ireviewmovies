@@ -4,8 +4,10 @@ import com.cholnhial.ireviewmovies.model.Role;
 import com.cholnhial.ireviewmovies.model.User;
 import com.cholnhial.ireviewmovies.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,7 +27,6 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     /**
      *  Find a user by their email
      *
@@ -34,6 +35,21 @@ public class UserService implements UserDetailsService {
      */
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public String getCurrentLoggedInUserFullName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails user = (UserDetails) authentication.getPrincipal();
+            Optional<User> ireviewMoviesUser= userRepository.findByEmail(user.getUsername());
+            if(ireviewMoviesUser.isPresent()) {
+                return ireviewMoviesUser.get().getFullName();
+            }
+        }
+
+        return "";
+
     }
 
     public User save(User user) {

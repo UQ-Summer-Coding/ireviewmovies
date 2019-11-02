@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Header</title>
@@ -19,10 +19,10 @@
                 <a class="nav-link" href="#">Home </a>
             </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul  sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link" href="#" id="navbarDropdown" data-toggle="dropdown">
-                    <p class="profile-name text-uppercase mr-3">Michael Brown</p>
+                    <p class="profile-name text-uppercase mr-3" th:text="${@userService.getCurrentLoggedInUserFullName()}">Michael Brown</p>
                     <img src="https://i.pravatar.cc/300" class="rounded-circle profile-avatar-img">
                     <i class="fas fa-chevron-down"></i>
                 </a>

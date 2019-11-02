@@ -50,6 +50,6 @@ public class UserSignUpController {
 
         this.userService.save(userMapper.UserSignUpDTOToUser(userSignUpDto));
 
-        return "redirect:/signup?success";
+        return "redirect:/login?newUser="+userSignUpDto.getFullName();
     }
 }
