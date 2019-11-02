@@ -1,4 +1,9 @@
 
+.search-results {
+    color: #eee;
+    font-size: 18em;
+}
+
 .profile-name {
     display: inline-block;
     color: #ccc;

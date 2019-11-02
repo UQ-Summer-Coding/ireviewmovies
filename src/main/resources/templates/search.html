@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+
+<head>
+    <title>Layout</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div class="card rounded mt-3">
+        <div class="card-body">
+            <h5 class="card-title text-center">Find your next movie</h5>
+            <form method="get">
+                <div class="form-group">
+                    <input type="hidden" name="page" value="1">
+                    <input th:value="${param.query} ? ${param.query} : ''" type="text" name="query" placeholder="e.g. Shrek" id="search-movie" class="form-control">
+                </div>
+                <div class="form-group">
+                    <div class="d-flex justify-content-center">
+                        <input type="submit" class="btn search-btn w-25 btn-primary btn-lg" value="Search">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <div th:if="!${param.query}" class="d-flex mt-5 justify-content-center">
+     <i class="fas search-results fa-search"></i>
+  </div>
+    <div th:if="${param.query}" class="mt-5">
+        <h3 class="mb-3"><span th:text="${searchResults.getTotalResults()}">22</span> movies found...</h3>
+        <div class="card mb-2" th:each="movie: ${searchResults.getResults()}">
+            <div class="card-body">
+                <h1 class="card-title text-center" th:text="${movie.title}">Shrek</h1>
+                <div class="row">
+                    <div class="col-2">
+                        <img class="img-fluid" th:src="'https://image.tmdb.org/t/p/w185' + ${movie.posterPath}" />
+                    </div>
+                    <div class="col-10">
+                        <h5>Overview</h5>
+                        <p th:text="${movie.overview}">It ain't easy bein' green -- especially if you're a likable (albeit smelly) ogre named Shrek. On a mission to retrieve a gorgeous princess from the clutches of a fire-breathing dragon, Shrek teams up with an unlikely compatriot -- a wisecracking
+                            donkey.
+                        </p>
+                        <br />
+                        <p><b>Language:</b> English</p>
+                        <p><b>Release date:</b> 16 May 2001</p>
+                        <p><b>TMDb Popularity:</b> 27</p>
+                        <p><b>TMDb Vote Average: </b>6.2</p>
+                    </div>
+                </div>
+                <div class="btn-group float-right">
+                    <button class="btn btn-primary btn-lg mx-1 rounded">
+                        <i class="fas fa-pencil-alt"></i> WRITE A REVIEW
+                    </button>
+                    <button class="btn btn-success btn-lg mx-1 rounded">
+                        <i class="fas fa-book-reader"></i> VIEW REVIEWS
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex mt-3 justify-content-center">
+        <nav>
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li  th:each="pageNumber: ${pageNumbers}"
+                     th:classappend="${pageNumber} == ${searchResults.getPage()} ? 'active' : ''"
+                     class="page-item">
+                    <a class="page-link" th:href="@{/search/(query=${param.query},page=${pageNumber})}" href="#"  th:text="${pageNumber}">1</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+</body>
+</html>
