@@ -29,8 +29,7 @@ public class SearchController {
             TMDbMovieSearchResultDTO result = tmDbMovieSearchService.searchMovie(query, page);
             model.addAttribute("searchResults", result);
             Long totalPages = result.getTotalPages();
-            totalPages++;
-            List<Integer> pageNumbers = IntStream.range(1, totalPages.intValue()).boxed().collect(Collectors.toList());
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages.intValue()).boxed().collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
         }
 
