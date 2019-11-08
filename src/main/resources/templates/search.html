@@ -46,7 +46,7 @@
                         </p>
                         <br />
                         <p><b>Language:</b> English</p>
-                        <p><b>Release date:</b> 16 May 2001</p>
+                        <p><b>Release date:</b> <span th:text="${#temporals.format(movie.releaseDate, 'dd MMMM yyyy')}">16 May 2001</span></p>
                         <p><b>TMDb Popularity:</b> 27</p>
                         <p><b>TMDb Vote Average: </b>6.2</p>
                     </div>
