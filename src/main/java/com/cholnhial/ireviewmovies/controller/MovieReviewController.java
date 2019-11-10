@@ -51,6 +51,7 @@ public class MovieReviewController {
         movieReviewDto.setTMDBMoviePosterPath(movie.getPosterPath());
         MovieReview movieReviewToSave = movieReviewMapper.movieReviewDTOToMovieReview(movieReviewDto);
         movieReviewToSave.setLikes(0); // no likes yet
+        movieReviewToSave.setTitle(movie.getTitle());
         this.movieReviewService.save(movieReviewToSave);
         return "redirect:/user/my-reviews";
     }

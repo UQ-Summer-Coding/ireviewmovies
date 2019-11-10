@@ -3,6 +3,8 @@ package com.cholnhial.ireviewmovies.service;
 import com.cholnhial.ireviewmovies.model.MovieReview;
 import com.cholnhial.ireviewmovies.repository.MovieReviewRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +27,10 @@ public class MovieReviewService {
         }
 
       return  this.movieReviewRepository.save(movieReview);
+    }
+
+    public Page<MovieReview> findAllByUserId(Long userId, Pageable pageable) {
+        return this.movieReviewRepository.findAllByUserId(userId, pageable);
     }
 
 }

@@ -27,6 +27,9 @@ public class MovieReview {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "review_text", columnDefinition = "text")
     @Type(type = "text")
     private String reviewText;

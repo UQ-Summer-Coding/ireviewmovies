@@ -23,11 +23,57 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-
+        <tr th:each="movieReview : ${movieReviewsPage}">
+            <td>
+                <img class="img-fluid" th:src="'https://image.tmdb.org/t/p/w45' + ${movieReview.getTMDBMoviePosterPath()}" />
+                <span th:text="${movieReview.getTitle()}">Shrek</span>
+            </td>
+            <td>XXX</td>
+            <td th:text="${movieReview.getLikes()}"></td>
+            <td th:text="${#temporals.format(movieReview.getCreated(), 'dd MMMM')}"></td>
+            <td>
+                <div class="btn-group btn-sm float-right">
+                    <button class="btn btn-sm btn-primary text-uppercase">view</button>
+                    <button class="ml-1 btn btn-sm btn-danger text-uppercase">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </td>
         </tr>
     </table>
+    <nav th:if="${movieReviewsPage.hasContent()}">
+        <ul class="pagination justify-content-center font-weight-normal">
+            <li class="page-item" th:classappend="${movieReviewsPage.number + 1 eq 1} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/user/my-reviews/(page=${movieReviewsPage.number})}"
+                   aria-label="Previous"
+                   title="Previous Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span>
+                </a>
+            </li>
 
+            <li class="page-item" th:classappend="${i eq movieReviewsPage.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence(movieReviewsPage.number + 1, movieReviewsPage.totalPages > 10 + movieReviewsPage.number ? movieReviewsPage.number + 10 : movieReviewsPage.totalPages, 1)}">
+                <a class="page-link h-100" th:href="@{/user/my-reviews/(page=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}"
+                   rel="tooltip"></a>
+            </li>
+            <li class="page-item disabled" th:if="${movieReviewsPage.number + 10 < movieReviewsPage.totalPages}">
+                <a class="page-link svg-icon" href="#">
+                    <span data-feather="more-horizontal" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item"  th:classappend="${movieReviewsPage.number + 1 eq movieReviewsPage.totalPages} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/user/my-reviews/(page=${movieReviewsPage.number + 2})}"
+                   aria-label="Next"
+                   title="Next Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
 
 </body>

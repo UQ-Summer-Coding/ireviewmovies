@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.ZonedDateTime;
 
 @Data
 public class MovieReviewDTO {
@@ -18,8 +19,12 @@ public class MovieReviewDTO {
     @NotBlank(message = "You need to write something")
     private String reviewText;
 
+    private String title;
+
     private Float rating;
 
     private Integer likes;
+
+    private ZonedDateTime created;
 
 }
