@@ -6,22 +6,31 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
 
     private  String tmdbApiKey;
-    private String movieApiUrl;
+    private String movieSearchApiUrl;
+    private String movieFindApiUrl;
 
     public String getTmdbApiKey() {
         return tmdbApiKey;
     }
 
-    public String getMovieApiUrl() {
-        return movieApiUrl;
+    public String getMovieSearchApiUrl() {
+        return movieSearchApiUrl;
     }
 
     public void setTmdbApiKey(String tmdbApiKey) {
         this.tmdbApiKey = tmdbApiKey;
     }
 
-    public void setMovieApiUrl(String movieApiUrl) {
-        this.movieApiUrl = movieApiUrl;
+    public void setMovieSearchApiUrl(String movieSearchApiUrl) {
+        this.movieSearchApiUrl = movieSearchApiUrl;
+    }
+
+    public String getMovieFindApiUrl() {
+        return movieFindApiUrl;
+    }
+
+    public void setMovieFindApiUrl(String movieFindApiUrl) {
+        this.movieFindApiUrl = movieFindApiUrl;
     }
 }
 

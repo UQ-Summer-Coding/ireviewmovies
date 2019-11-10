@@ -62,7 +62,7 @@
             </div>
         </div>
     </div>
-    <nav>
+    <nav th:if="${searchResults != null}">
         <ul class="pagination justify-content-center font-weight-normal">
             <li class="page-item" th:classappend="${searchResults.getPage() eq 1} ? 'disabled'">
                 <a class="page-link svg-icon"

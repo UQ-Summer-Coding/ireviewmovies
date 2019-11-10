@@ -52,6 +52,20 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public User getCurrentLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails user = (UserDetails) authentication.getPrincipal();
+            Optional<User> ireviewMoviesUser= userRepository.findByEmail(user.getUsername());
+            if(ireviewMoviesUser.isPresent()) {
+                return ireviewMoviesUser.get();
+            }
+        }
+
+        return null;
+    }
+
     public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);

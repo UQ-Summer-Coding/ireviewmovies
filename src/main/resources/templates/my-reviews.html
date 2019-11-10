@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
 
 <head>
     <title>Layout</title>
@@ -11,8 +11,22 @@
 
 
     <h1>My Reviews</h1>
+    <a th:href="@{/search}"  class="mt-1 mb-1 btn btn-primary btn-lg float-right"><i class="fas fa-plus"></i> ADD NEW REVIEW</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Movie</th>
+            <th scope="col">My Rating</th>
+            <th scope="col">Likes Received</th>
+            <th scope="col">Date Added</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
 
-    <h4>No Reviews</h4>
+        </tr>
+    </table>
 
 </div>
 

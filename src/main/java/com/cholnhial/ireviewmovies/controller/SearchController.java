@@ -1,6 +1,6 @@
 package com.cholnhial.ireviewmovies.controller;
 
-import com.cholnhial.ireviewmovies.service.TMDbMovieSearchService;
+import com.cholnhial.ireviewmovies.service.TMDbMovieService;
 import com.cholnhial.ireviewmovies.service.dto.TMDbMovieSearchResultDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 public class SearchController {
 
-    private final TMDbMovieSearchService tmDbMovieSearchService;
+    private final TMDbMovieService tmDbMovieService;
 
     @GetMapping
     public String index(Model model,
@@ -26,7 +26,7 @@ public class SearchController {
                         @RequestParam(value ="page", required = false, defaultValue = "1") Integer page
     ) {
         if(!query.isEmpty()) {
-            TMDbMovieSearchResultDTO result = tmDbMovieSearchService.searchMovie(query, page);
+            TMDbMovieSearchResultDTO result = tmDbMovieService.searchMovie(query, page);
             model.addAttribute("searchResults", result);
             Long totalPages = result.getTotalPages();
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages.intValue()).boxed().collect(Collectors.toList());

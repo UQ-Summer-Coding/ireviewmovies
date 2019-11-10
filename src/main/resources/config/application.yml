@@ -8,4 +8,5 @@ spring:
 
 application:
   tmdbApiKey: "aa9490e023b69dc39241ba00b1fa101d"
-  movieApiUrl: "https://api.themoviedb.org/3/search/movie"
+  movieSearchApiUrl: "https://api.themoviedb.org/3/search/movie"
+  movieFindApiUrl: "https://api.themoviedb.org/3/movie"
