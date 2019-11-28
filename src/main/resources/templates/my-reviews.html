@@ -33,7 +33,7 @@
             <td th:text="${#temporals.format(movieReview.getCreated(), 'dd MMMM')}"></td>
             <td>
                 <div class="btn-group btn-sm float-right">
-                    <button class="btn btn-sm btn-primary text-uppercase">view</button>
+                    <button th:onclick="'javascript:openMovieReviewsDetailsModal(\'' + ${movieReview.getId()} + '\');'" class="btn btn-sm btn-primary text-uppercase">view</button>
                     <button class="ml-1 btn btn-sm btn-danger text-uppercase">
                         <i class="fas fa-trash"></i> Delete
                     </button>
@@ -74,7 +74,8 @@
             </li>
         </ul>
     </nav>
+    <div id="movieReviewDetailsModalHolder">
 </div>
-
+</div>
 </body>
 </html>

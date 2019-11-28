@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -31,6 +32,10 @@ public class MovieReviewService {
 
     public Page<MovieReview> findAllByUserId(Long userId, Pageable pageable) {
         return this.movieReviewRepository.findAllByUserId(userId, pageable);
+    }
+
+    public Optional<MovieReview> findOneById(Long id) {
+        return this.movieReviewRepository.findById(id);
     }
 
 }

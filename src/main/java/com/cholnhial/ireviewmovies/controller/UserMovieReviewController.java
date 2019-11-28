@@ -3,8 +3,10 @@ package com.cholnhial.ireviewmovies.controller;
 import com.cholnhial.ireviewmovies.model.MovieReview;
 import com.cholnhial.ireviewmovies.model.User;
 import com.cholnhial.ireviewmovies.service.MovieReviewService;
+import com.cholnhial.ireviewmovies.service.TMDbMovieService;
 import com.cholnhial.ireviewmovies.service.UserService;
 import com.cholnhial.ireviewmovies.service.dto.MovieReviewDTO;
+import com.cholnhial.ireviewmovies.service.dto.TMDbMovieDTO;
 import com.cholnhial.ireviewmovies.service.mapper.MovieReviewMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -24,6 +27,7 @@ public class UserMovieReviewController {
 
     private final MovieReviewService movieReviewService;
     private final MovieReviewMapper movieReviewMapper;
+    private final TMDbMovieService tmDbMovieService;
     private final UserService userService;
 
     @GetMapping("my-reviews")
@@ -40,6 +44,18 @@ public class UserMovieReviewController {
 
         model.addAttribute("movieReviewsPage", movieReviewDtosPage);
         return "my-reviews";
+    }
+
+    @GetMapping("my-reviews/{id}")
+    public String getMovieReviewDetails(@PathVariable Long id, Model model) {
+
+        //TODO: Redirect to 404 if not found
+        Optional<MovieReview> movieReviewOptional = this.movieReviewService.findOneById(id);
+
+        TMDbMovieDTO movie = this.tmDbMovieService.getMovieById(movieReviewOptional.get().getTMDBMovieId());
+        model.addAttribute("movieReview", movieReviewOptional.get());
+        model.addAttribute("movie", movie);
+        return "movie-review-details-modal :: modalContents";
     }
 }
 
