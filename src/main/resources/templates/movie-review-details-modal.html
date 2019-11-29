@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<div class="modal fade" id="movieReviewDetailsModal" tabindex="-1" role="dialog" th:fragment="modalContents" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="modal fade" th:attr="data-movie-review-id=${movieReview.getId()}, data-user-movie-rating=${movieReview.getRating()}" id="movieReviewDetailsModal" tabindex="-1" role="dialog" th:fragment="modalContents" xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -22,12 +22,24 @@
                 </div>
                 <h5>Review</h5>
                 <p th:text="${movieReview.getReviewText()}"></p>
+                <label th:for="${'user-movie-review-rating-modal-' + movieReview.getId() }">Your Rating:</label>
+                <div th:id="${'user-movie-review-rating-modal-' + movieReview.getId() }"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+           const movieReviewId = $('#movieReviewDetailsModal').data('movie-review-id');
+           const movieRating = $('#movieReviewDetailsModal').data('user-movie-rating');
+            $("#user-movie-review-rating-modal-" + movieReviewId).rateYo({
+                rating: movieRating,
+                readOnly: true
+            });
+        });
+    </script>
 </div>
 </body>
 </html>

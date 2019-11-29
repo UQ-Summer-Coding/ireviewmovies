@@ -23,12 +23,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="movieReview : ${movieReviewsPage}">
+        <tr class="movie-review-row" th:attr="data-movie-review-id=${movieReview.getId()},data-user-movie-review-rating=${movieReview.getRating()}" th:each="movieReview : ${movieReviewsPage}">
             <td>
                 <img class="img-fluid" th:src="'https://image.tmdb.org/t/p/w45' + ${movieReview.getTMDBMoviePosterPath()}" />
                 <span th:text="${movieReview.getTitle()}">Shrek</span>
             </td>
-            <td>XXX</td>
+            <td>
+                <div th:id="${'user-movie-review-rating-table-' + movieReview.getId() }"></div>
+            </td>
             <td th:text="${movieReview.getLikes()}"></td>
             <td th:text="${#temporals.format(movieReview.getCreated(), 'dd MMMM')}"></td>
             <td>
@@ -76,6 +78,17 @@
     </nav>
     <div id="movieReviewDetailsModalHolder">
 </div>
+    <script>
+        $(".movie-review-row").each(function(index) {
+
+           const movieReviewId = $(this).data('movie-review-id');
+           const userMovieReviewRating = $(this).data('user-movie-review-rating');
+            $("#user-movie-review-rating-table-" + movieReviewId).rateYo({
+                rating: userMovieReviewRating,
+                readOnly: true
+            });
+        });
+    </script>
 </div>
 </body>
 </html>
