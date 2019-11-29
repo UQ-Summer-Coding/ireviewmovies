@@ -34,6 +34,11 @@ public class MovieReviewService {
         return this.movieReviewRepository.findAllByUserId(userId, pageable);
     }
 
+    public void deleteMovieReviewById(Long id) {
+        this.movieReviewRepository.deleteById(id);
+    }
+
+
     public Optional<MovieReview> findOneById(Long id) {
         return this.movieReviewRepository.findById(id);
     }

@@ -13,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -56,6 +53,19 @@ public class UserMovieReviewController {
         model.addAttribute("movieReview", movieReviewOptional.get());
         model.addAttribute("movie", movie);
         return "movie-review-details-modal :: modalContents";
+    }
+
+    @GetMapping("my-reviews/{id}/delete")
+    public String getMovieReviewDeleteModal(@PathVariable Long id, Model model) {
+        Optional<MovieReview> movieReviewOptional = this.movieReviewService.findOneById(id);
+        model.addAttribute("movieReview", movieReviewOptional.get());
+        return "movie-review-delete-modal :: modalContents";
+    }
+
+    @PostMapping("my-reviews/{id}/delete")
+    public String deleteMovieReview(@PathVariable Long id) {
+        this.movieReviewService.deleteMovieReviewById(id);
+        return "redirect:/user/my-reviews";
     }
 }
 

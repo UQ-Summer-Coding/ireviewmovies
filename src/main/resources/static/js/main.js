@@ -3,14 +3,29 @@ $(document).ready(function() {
 });
 
 
-function openMovieReviewsDetailsModal(movieReviewId) {
+function openMovieReviewDetailsModal(movieReviewId) {
     $.LoadingOverlay("show");
     $.ajax({
         url: "/user/my-reviews/" + movieReviewId,
         success: function (data) {
-            $('#movieReviewDetailsModalHolder').html(data);
+            $('#myReviewsModalHolder').html(data);
             $.LoadingOverlay("hide");
             $('#movieReviewDetailsModal').modal('show');
+        },
+        error: function(data) {
+            $.LoadingOverlay("hide");
+        }
+    })
+}
+
+function openMovieReviewDeleteModal(movieReviewId) {
+    $.LoadingOverlay("show");
+    $.ajax({
+        url: "/user/my-reviews/" + movieReviewId + "/delete",
+        success: function (data) {
+            $('#myReviewsModalHolder').html(data);
+            $.LoadingOverlay("hide");
+            $('#movieReviewDeleteModal').modal('show');
         },
         error: function(data) {
             $.LoadingOverlay("hide");
