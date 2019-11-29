@@ -79,15 +79,7 @@
     <div id="movieReviewDetailsModalHolder">
 </div>
     <script>
-        $(".movie-review-row").each(function(index) {
-
-           const movieReviewId = $(this).data('movie-review-id');
-           const userMovieReviewRating = $(this).data('user-movie-review-rating');
-            $("#user-movie-review-rating-table-" + movieReviewId).rateYo({
-                rating: userMovieReviewRating,
-                readOnly: true
-            });
-        });
+        initializeUserMovieReviewsTableStarRatings();
     </script>
 </div>
 </body>

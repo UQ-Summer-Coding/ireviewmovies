@@ -31,14 +31,7 @@
         </div>
     </div>
     <script>
-        $(function () {
-           const movieReviewId = $('#movieReviewDetailsModal').data('movie-review-id');
-           const movieRating = $('#movieReviewDetailsModal').data('user-movie-rating');
-            $("#user-movie-review-rating-modal-" + movieReviewId).rateYo({
-                rating: movieRating,
-                readOnly: true
-            });
-        });
+        initializeUserMovieReviewDetailsModal();
     </script>
 </div>
 </body>
