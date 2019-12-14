@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <div class="modal fade" th:attr="data-movie-review-id=${movieReview.getId()}, data-user-movie-rating=${movieReview.getRating()}" id="movieReviewEditModal" tabindex="-1" role="dialog" th:fragment="modalContents" xmlns:th="http://www.w3.org/1999/xhtml">
-    <form th:action="@{/reviews/save-edit}" th:object="${movieReview}" th:method="post">
+    <form id="movieReviewEditForm" th:action="@{/reviews/save-edit}" th:object="${movieReview}" th:method="post">
     <div class="modal-dialog modal-lg" role="document">
         <input type="hidden" th:field="*{tMDBMovieId}" name="tMDBMovieId"/>
         <input type="hidden" th:field="*{id}" name="id"/>
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" th:text="${movieReview.getTitle() + ' - Edit'}">Edit Movie Review</h5>
+                <h5 class="modal-title" th:text="${movie.getTitle() + ' - Edit'}">Edit Movie Review</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

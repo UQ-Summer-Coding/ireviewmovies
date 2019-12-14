@@ -76,25 +76,56 @@ function initializeUserMovieReviewDetailsModal() {
 function initializeUserMovieReviewEditModal() {
     $(function () {
 
-        if(lastRateYo != null) {
-            lastRateYo.rateYo("destroy");
-            lastRateYo = null;
-        }
+        initializeEditMovieReviewModalRateYo();
+        initializeEditMovieReviewModalForm();
 
-        const movieReviewId = $('#movieReviewEditModal').data('movie-review-id');
-        const movieRating = $('#movieReviewEditModal').data('user-movie-rating');
-        lastRateYo = $("#user-movie-review-rating-edit-modal-" + movieReviewId).rateYo({
-            rating: movieRating,
-            halfStar: true
+    });
 
+}
+
+function initializeEditMovieReviewModalForm() {
+    $("#movieReviewEditForm").submit(function (event) {
+        event.preventDefault();
+        const postUrl = $(this).attr("action");
+        const postMethod = $(this).attr("method");
+        const formData = $(this).serialize();
+
+
+        $.ajax({
+            url: postUrl,
+            type: postMethod,
+            data: formData,
+        }).done(function (response) {
+            window.location = "/user/my-reviews";
+        }).fail(function (response) {
+            let respDom = $(response.responseText);
+            let formDom = $('#movieReviewEditForm', respDom);
+            $('#movieReviewEditModal').html(formDom.parent().html());
+            initializeEditMovieReviewModalRateYo();
         });
 
-        lastRateYo.rateYo()
-            .on("rateyo.change", function (e, data) {
-
-                var rating = data.rating;
-                $(this).next().text(rating);
-                $('#userRating').val(rating);
-            });
     });
+}
+
+function initializeEditMovieReviewModalRateYo() {
+    if(lastRateYo != null) {
+        lastRateYo.rateYo("destroy");
+        lastRateYo = null;
+    }
+
+    const movieReviewId = $('#movieReviewEditModal').data('movie-review-id');
+    const movieRating = $('#movieReviewEditModal').data('user-movie-rating');
+    lastRateYo = $("#user-movie-review-rating-edit-modal-" + movieReviewId).rateYo({
+        rating: movieRating,
+        halfStar: true
+
+    });
+
+    lastRateYo.rateYo()
+        .on("rateyo.change", function (e, data) {
+
+            var rating = data.rating;
+            $(this).next().text(rating);
+            $('#userRating').val(rating);
+        });
 }

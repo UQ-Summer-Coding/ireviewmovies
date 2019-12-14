@@ -7,10 +7,12 @@ import com.cholnhial.ireviewmovies.service.dto.MovieReviewDTO;
 import com.cholnhial.ireviewmovies.service.dto.TMDbMovieDTO;
 import com.cholnhial.ireviewmovies.service.mapper.MovieReviewMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -67,12 +69,18 @@ public class MovieReviewController {
     }
 
     @PostMapping("/save-edit")
-    public String saveEditedMovieReview(@Valid @ModelAttribute("movieReview") MovieReviewDTO movieReviewDto,
-                                        BindingResult result,
-                                        Model model) {
+    public ModelAndView saveEditedMovieReview(@Valid @ModelAttribute("movieReview") MovieReviewDTO movieReviewDto,
+                                              BindingResult result) {
+
+        ModelAndView modelAndView = new ModelAndView();
 
         if(result.hasErrors()) {
-            return "movie-review-edit-modal :: modalContents";
+            // ID should been set in form
+            TMDbMovieDTO movie = tmDbMovieService.getMovieById(movieReviewDto.getTMDBMovieId());
+            modelAndView.addObject("movie", movie);
+            modelAndView.setViewName("movie-review-edit-modal :: modalContents");
+            modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+            return modelAndView;
         }
 
         Optional<MovieReview> existingMovieReview = this.movieReviewService.findOneById(movieReviewDto.getId());
@@ -82,7 +90,8 @@ public class MovieReviewController {
             this.movieReviewService.save(review);
         });
 
-        return "redirect:/user/my-reviews";
+        modelAndView.setStatus(HttpStatus.OK);
+        modelAndView.setViewName("redirect:/user/my-reviews");
+        return modelAndView;
     }
-
 }
