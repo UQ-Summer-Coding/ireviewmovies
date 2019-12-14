@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/reviews")
@@ -34,6 +35,15 @@ public class MovieReviewController {
         return "reviews/new";
     }
 
+    @GetMapping("{movieReviewId}/edit")
+    public String editReview(Model model, @PathVariable Long movieReviewId) {
+        Optional<MovieReview> movieReviewOptional = movieReviewService.findOneById(movieReviewId);
+        model.addAttribute("movieReview", this.movieReviewMapper.movieReviewToMovieReviewDto(movieReviewOptional.get()));
+        TMDbMovieDTO movie = tmDbMovieService.getMovieById(movieReviewOptional.get().getTMDBMovieId());
+        model.addAttribute("movie", movie);
+        return "movie-review-edit-modal :: modalContents";
+    }
+
     @PostMapping("/save-new")
     public String saveNewMovieReview(@Valid @ModelAttribute("movieReview") MovieReviewDTO movieReviewDto,
                                        BindingResult result,
@@ -53,6 +63,25 @@ public class MovieReviewController {
         movieReviewToSave.setLikes(0); // no likes yet
         movieReviewToSave.setTitle(movie.getTitle());
         this.movieReviewService.save(movieReviewToSave);
+        return "redirect:/user/my-reviews";
+    }
+
+    @PostMapping("/save-edit")
+    public String saveEditedMovieReview(@Valid @ModelAttribute("movieReview") MovieReviewDTO movieReviewDto,
+                                        BindingResult result,
+                                        Model model) {
+
+        if(result.hasErrors()) {
+            return "movie-review-edit-modal :: modalContents";
+        }
+
+        Optional<MovieReview> existingMovieReview = this.movieReviewService.findOneById(movieReviewDto.getId());
+        existingMovieReview.ifPresent(review -> {
+            review.setReviewText(movieReviewDto.getReviewText());
+            review.setRating(movieReviewDto.getRating());
+            this.movieReviewService.save(review);
+        });
+
         return "redirect:/user/my-reviews";
     }
 

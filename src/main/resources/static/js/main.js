@@ -2,6 +2,8 @@ $(document).ready(function() {
     feather.replace();
 });
 
+let lastRateYo = null;
+
 
 function openMovieReviewDetailsModal(movieReviewId) {
     $.LoadingOverlay("show");
@@ -33,6 +35,21 @@ function openMovieReviewDeleteModal(movieReviewId) {
     })
 }
 
+function openMovieReviewEditModal(movieReviewId) {
+    $.LoadingOverlay("show");
+    $.ajax({
+        url: "/reviews/" + movieReviewId + "/edit",
+        success: function (data) {
+            $('#myReviewsModalHolder').html(data);
+            $.LoadingOverlay("hide");
+            $('#movieReviewEditModal').modal('show');
+        },
+        error: function(data) {
+            $.LoadingOverlay("hide");
+        }
+    })
+}
+
 function initializeUserMovieReviewsTableStarRatings() {
     $(".movie-review-row").each(function(index) {
 
@@ -53,5 +70,31 @@ function initializeUserMovieReviewDetailsModal() {
             rating: movieRating,
             readOnly: true
         });
+    });
+}
+
+function initializeUserMovieReviewEditModal() {
+    $(function () {
+
+        if(lastRateYo != null) {
+            lastRateYo.rateYo("destroy");
+            lastRateYo = null;
+        }
+
+        const movieReviewId = $('#movieReviewEditModal').data('movie-review-id');
+        const movieRating = $('#movieReviewEditModal').data('user-movie-rating');
+        lastRateYo = $("#user-movie-review-rating-edit-modal-" + movieReviewId).rateYo({
+            rating: movieRating,
+            halfStar: true
+
+        });
+
+        lastRateYo.rateYo()
+            .on("rateyo.change", function (e, data) {
+
+                var rating = data.rating;
+                $(this).next().text(rating);
+                $('#userRating').val(rating);
+            });
     });
 }
