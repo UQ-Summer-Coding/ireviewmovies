@@ -22,8 +22,8 @@
                 </div>
                 <h5>Review</h5>
                 <p th:text="${movieReview.getReviewText()}"></p>
-                <label th:for="${'user-movie-review-rating-modal-' + movieReview.getId() }">Your Rating:</label>
-                <div th:id="${'user-movie-review-rating-modal-' + movieReview.getId() }"></div>
+                <label th:for="'user-movie-review-rating-modal-' + ${movieReview.getId()}">Your Rating:</label>
+                <div th:id="'user-movie-review-rating-modal-' + ${movieReview.getId()}"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

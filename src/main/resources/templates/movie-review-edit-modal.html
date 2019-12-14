@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div class="modal fade" th:attr="data-movie-review-id=${movieReview.getId()}, data-user-movie-rating=${movieReview.getRating()}" id="movieReviewEditModal" tabindex="-1" role="dialog" th:fragment="modalContents" xmlns:th="http://www.w3.org/1999/xhtml">
+    <form th:action="@{/reviews/save-edit}" th:object="${movieReview}" th:method="post">
+    <div class="modal-dialog modal-lg" role="document">
+        <input type="hidden" th:field="*{tMDBMovieId}" name="tMDBMovieId"/>
+        <input type="hidden" th:field="*{id}" name="id"/>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" th:text="${movieReview.getTitle() + ' - Edit'}">Edit Movie Review</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row align-items-end mb-3">
+                    <div class="col-2">
+                        <img class="img-fluid" th:src="'https://image.tmdb.org/t/p/w92/' + ${movie.posterPath}" />
+                    </div>
+                    <div class="col-10">
+                        <p class="text-muted" th:text="${movie.overview}">A movie about...</p>
+                        <h6>Release: <span th:text="${#temporals.format(movie.releaseDate, 'dd MMMM yyyy')}">01 Jan 2001</span></h6>
+                    </div>
+                </div>
+                <hr>
+                <div class="mb-3 mt-2">
+                    <label for="reviewText">Review:</label>
+                    <textarea th:field="*{reviewText}"
+                              style="height: 15em;"
+                              class="form-control"
+                              id="reviewText"
+                              placeholder="A fantastic movie..."
+                              th:classappend="${#fields.hasErrors('reviewText')} ? 'is-invalid'">
+                            </textarea>
+                    <p class="invalid-feedback" th:each="error: ${#fields.errors('reviewText')}" th:text="${error}">
+                        Validation errors
+                    </p>
+                </div>
+                <input type="hidden" value="0" th:field="*{rating}" id="userRating" name="userRating">
+                <label th:for="'user-movie-review-rating-edit-modal-' + ${movieReview.getId()}">Rating:</label>
+                <div th:id="'user-movie-review-rating-edit-modal-' + ${movieReview.getId()}"></div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script>
+        initializeUserMovieReviewEditModal();
+    </script>
+</div>
+</body>
+</html>
