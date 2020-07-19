@@ -3,6 +3,7 @@ package com.cholnhial.ireviewmovies.service;
 import com.cholnhial.ireviewmovies.model.Role;
 import com.cholnhial.ireviewmovies.model.User;
 import com.cholnhial.ireviewmovies.repository.UserRepository;
+import com.cholnhial.ireviewmovies.util.SecurityUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -52,8 +53,23 @@ public class UserService implements UserDetailsService {
 
     }
 
+    public String getCurrentLoggedInUserProfileImage() {
+        Authentication authentication = SecurityUtil.getAuthentication();
+
+        if(authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails user = (UserDetails) authentication.getPrincipal();
+            Optional<User> ireviewMoviesUser= userRepository.findByEmail(user.getUsername());
+            if(ireviewMoviesUser.isPresent()) {
+                return ireviewMoviesUser.get().getProfileImage() != null ? ireviewMoviesUser.get().getProfileImage() : "";
+            }
+        }
+
+        return "";
+
+    }
+
     public User getCurrentLoggedInUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityUtil.getAuthentication();
 
         if(authentication.getPrincipal() instanceof UserDetails) {
             UserDetails user = (UserDetails) authentication.getPrincipal();

@@ -25,6 +25,10 @@ public class User {
     @Column
     private String password;
 
+    @Lob
+    @Column(name = "profile_image")
+    private String profileImage;
+
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
