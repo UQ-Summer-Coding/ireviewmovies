@@ -12,11 +12,14 @@
     <h1 class="mt-4 text-center">Update Profile</h1>
     <div class="d-flex justify-content-center">
 
-        <form id="profile-form" th:object="${user}" th:method="post" th:action="@{/user/profile}" class="w-25">
+        <form th:fragment="form" id="profile-form" th:object="${user}" th:method="post" th:action="@{/user/profile}" class="w-25">
             <input type="hidden" th:field="*{email}" name="email"/>
             <input id="profile-image" type="hidden"  th:field="*{profileImageBase64}" />
-            <div th:if="${#fields.hasGlobalErrors()}"  class="alert alert-danger" role="alert">
+            <div id="errors" th:if="${#fields.hasGlobalErrors()}"  class="alert alert-danger" role="alert">
                 <p th:each="error: ${#fields.globalErrors()}" th:text="${error}">Validation errors</p>
+            </div>
+            <div id="success" class="alert alert-success d-none">
+                <p>You details have been successfully updated.</p>
             </div>
             <div class="d-flex justify-content-center">
                 <div class="profile-upload-wrap">
@@ -69,7 +72,8 @@
         </form>
     </div>
     <script>
-        var profileImageChanged = false;
+        var profileImageChanged;
+
         function readFile(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -91,49 +95,59 @@
             }
         }
 
-        $uploadCrop = $('#profile-upload').croppie({
-            enableExif: true,
-            url: $('#profile-image').val(),
-            viewport: {
-                width: 200,
-                height: 200,
-                type: 'circle'
-            },
-            boundary: {
-                width: 300,
-                height: 300
-            }
-        });
+        function initForm() {
+            profileImageChanged = false;
 
-        $("#profile-form").submit(function(event) {
-            event.preventDefault();
-
-
-            $uploadCrop.croppie('result', {
-                type: 'canvas',
-                size: 'viewport'
-            }).then(function (resp) {
-
-
-                if (profileImageChanged) {
-                    $('#profile-image').val(resp);
+            $uploadCrop = $('#profile-upload').croppie({
+                enableExif: true,
+                url: $('#profile-image').val(),
+                viewport: {
+                    width: 200,
+                    height: 200,
+                    type: 'circle'
+                },
+                boundary: {
+                    width: 300,
+                    height: 300
                 }
+            });
 
-                const postUrl = $('#profile-form').attr("action");
-                const postMethod = $('#profile-form').attr("method");
-                const formData = $('#profile-form').serialize();
+            $("#profile-form").submit(function(event) {
+                event.preventDefault();
 
-                $.ajax({
-                    type: postMethod,
-                    url: postUrl,
-                    data: formData
-                }).done(function(resp) {
-                    window.location = "/user/profile"
+
+                $uploadCrop.croppie('result', {
+                    type: 'canvas',
+                    size: 'viewport'
+                }).then(function (resp) {
+
+
+                    if (profileImageChanged) {
+                        $('#profile-image').val(resp);
+                    }
+
+                    const postUrl = $('#profile-form').attr("action");
+                    const postMethod = $('#profile-form').attr("method");
+                    const formData = $('#profile-form').serialize();
+
+                    $.ajax({
+                        type: postMethod,
+                        url: postUrl,
+                        data: formData
+                    }).done(function(resp) {
+                        $('#errors').remove();
+                        $('#success').removeClass("d-none");
+                    }).fail(function(resp) {
+                        $("#profile-form").html(resp.responseText);
+                        initForm(); // re-init we updated the dom
+                    });
                 });
             });
-        });
 
-        $('#upload').on('change', function () { readFile(this); profileImageChanged = true; });
+            $('#upload').on('change', function () { readFile(this); profileImageChanged = true; });
+        }
+
+        initForm(); // first call
     </script>
 </div>
 </body>

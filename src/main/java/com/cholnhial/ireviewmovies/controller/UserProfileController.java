@@ -5,6 +5,7 @@ import com.cholnhial.ireviewmovies.service.UserService;
 import com.cholnhial.ireviewmovies.service.dto.UserProfileDTO;
 import com.cholnhial.ireviewmovies.util.SecurityUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -41,13 +43,16 @@ public class UserProfileController {
     }
 
     @PostMapping("/profile")
-    public String updateProfile(@Valid @ModelAttribute("user")  UserProfileDTO profileDto,
-                             BindingResult result,
-                             Model model) {
+    public ModelAndView updateProfile(@Valid @ModelAttribute("user")  UserProfileDTO profileDto,
+                                      BindingResult result,
+                                      Model model) {
         Optional<User> user = this.userService.findByEmail(profileDto.getEmail());
+        ModelAndView modelAndView = new ModelAndView("");
 
         if (result.hasErrors()) {
-            return "profile";
+            modelAndView.setViewName("profile :: form");
+            modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+            return modelAndView;
         }
 
         user.ifPresent(u -> {
@@ -59,7 +64,10 @@ public class UserProfileController {
             this.userService.save(u);
         });
 
-        return "profile";
+        modelAndView.setViewName("profile");
+        modelAndView.setStatus(HttpStatus.OK);
+
+        return modelAndView;
     }
 
 
