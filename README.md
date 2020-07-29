@@ -16,6 +16,7 @@ Don't use `-d` if you don't want to daemonize (run in background).
 
 This will use ``resources/config/application-docker``
 
+The website will be available at: `http://localhost:8080/`
 #### Intellij IDEA
 If you love InteliJ all you'll need to do is run the docker database 
 and then use the `dev` spring environment which can be supplied via the Application run config.
@@ -31,5 +32,7 @@ Running:
 $ docker-compose up -d db   
 ```
 2\.  Press the run button in IntelliJ to start Spring Boot
+
+3\. The website will be available at: `http://localhost:8080/`
 
  
