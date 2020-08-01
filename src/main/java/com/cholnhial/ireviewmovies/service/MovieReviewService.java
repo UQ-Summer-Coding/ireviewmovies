@@ -27,7 +27,7 @@ public class MovieReviewService {
             movieReview.setUser(userService.getCurrentLoggedInUser());
         }
 
-      return  this.movieReviewRepository.save(movieReview);
+      return  this.movieReviewRepository.saveAndFlush(movieReview);
     }
 
     public Page<MovieReview> findAllByUserId(Long userId, Pageable pageable) {
@@ -41,6 +41,10 @@ public class MovieReviewService {
 
     public Optional<MovieReview> findOneById(Long id) {
         return this.movieReviewRepository.findById(id);
+    }
+
+    public Float getAverageRatingByTMDBMovieId(Long TMdbMovieId) {
+        return movieReviewRepository.getAverageRatingByTMDBMovieId(TMdbMovieId);
     }
 
 }
