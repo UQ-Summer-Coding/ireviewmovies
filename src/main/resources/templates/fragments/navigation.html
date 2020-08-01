@@ -7,38 +7,6 @@
 </head>
 
 <body>
-
-<!--<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" >
-    <div class="container">
-    <a class="navbar-brand" href="/"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navcontent">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navcontent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home </a>
-            </li>
-        </ul>
-        <ul  sec:authorize="isAuthenticated()" class="navbar-nav ml-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="#" id="navbarDropdown" data-toggle="dropdown">
-                    <p class="profile-name text-uppercase mr-3" th:text="${@userService.getCurrentLoggedInUserFullName()}">Michael Brown</p>
-                    <img th:src="${#strings.isEmpty(@userService.getCurrentLoggedInUserProfileImage()) ? '/img/default-profile-pic.png' : @userService.getCurrentLoggedInUserProfileImage()}" class="rounded-circle profile-avatar-img">
-                    <i class="fas fa-chevron-down"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="/user/my-reviews">My Reviews</a>
-                    <a class="dropdown-item" href="/user/profile">Profile</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="/logout">Logout</a>
-                </div>
-            </li>
-        </ul>
-    </div>
-    </div>
-</nav>-->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" th:fragment="navigation">
     <div class="container">
         <a class="navbar-brand" href="#">

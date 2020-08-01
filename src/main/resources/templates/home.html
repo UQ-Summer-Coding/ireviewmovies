@@ -36,8 +36,9 @@
                         <div class="card-footer clearfix">
                             <div class="d-flex justify-content-center align-items-center float-left">
                                 <span class="text-muted" th:text="${searchResults.getContent().get(i).getAverageRating() + ' '}"></span><div class="d-inline" th:id="${'movie-rating-card-' + searchResults.getContent().get(i).getId() }"></div>
+                                <small class="text-muted float-right" th:text="${searchResults.getContent().get(i).getTotalReviews() + ' Reviews'}">22 Reviews</small>
                             </div>
-                            <small class="text-muted float-right" th:text="${searchResults.getContent().get(i).getTotalReviews() + ' Reviews'}">22 Reviews</small>
+
                         </div>
                     </div>
                 </div>
