@@ -57,7 +57,7 @@ public class UserProfileController {
 
         user.ifPresent(u -> {
             u.setFullName(profileDto.getFullName());
-            if (!profileDto.getConfirmPassword().isEmpty()) {
+            if (!profileDto.getConfirmPassword().isEmpty() && !profileDto.getPassword().isEmpty()) {
                 u.setPassword(profileDto.getPassword());
             }
             u.setProfileImage(profileDto.getProfileImageBase64());
