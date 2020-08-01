@@ -1,7 +1,9 @@
 package com.cholnhial.ireviewmovies.controller;
 
+import com.cholnhial.ireviewmovies.model.Movie;
 import com.cholnhial.ireviewmovies.model.MovieReview;
 import com.cholnhial.ireviewmovies.service.MovieReviewService;
+import com.cholnhial.ireviewmovies.service.MovieService;
 import com.cholnhial.ireviewmovies.service.TMDbMovieService;
 import com.cholnhial.ireviewmovies.service.dto.MovieReviewDTO;
 import com.cholnhial.ireviewmovies.service.dto.TMDbMovieDTO;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +28,7 @@ public class MovieReviewController {
     private final TMDbMovieService tmDbMovieService;
     private final MovieReviewMapper movieReviewMapper;
     private final MovieReviewService movieReviewService;
+    private final MovieService movieService;
 
 
     @ModelAttribute("movieReview")
@@ -65,6 +69,27 @@ public class MovieReviewController {
         movieReviewToSave.setLikes(0); // no likes yet
         movieReviewToSave.setTitle(movie.getTitle());
         this.movieReviewService.save(movieReviewToSave);
+
+
+        /*
+         * Locate an instance of a movie already saved or create new.
+         * This is used to display the reviewed movies on the home page
+         */
+        movieService.findByTMDbMovieId(movieReviewToSave.getTMDBMovieId()).ifPresentOrElse(m -> {
+            m.setTotalReviews(m.getTotalReviews() + 1);
+            m.setAverageRating(movieReviewService.getAverageRatingByTMDBMovieId(movieReviewDto.getTMDBMovieId()));
+            movieService.save(m);
+        }, () -> {
+            Movie newMovie = new Movie();
+            newMovie.setTotalReviews(1L);
+            newMovie.setName(movie.getTitle());
+            newMovie.setAverageRating(movieReviewService.getAverageRatingByTMDBMovieId(movieReviewDto.getTMDBMovieId()));
+            newMovie.setTMDBMovieId(movieReviewDto.getTMDBMovieId());
+            newMovie.setTMDBMoviePosterPath(movieReviewDto.getTMDBMoviePosterPath());
+            newMovie.setCreatedDateTime(ZonedDateTime.now());
+            movieService.save(newMovie);
+        } );
+
         return "redirect:/user/my-reviews";
     }
 
