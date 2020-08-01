@@ -93,3 +93,7 @@ input[type="file"] {
         margin-left: -15rem;
     }
 }
+
+.card-movie {
+    max-width: 85%;
+}

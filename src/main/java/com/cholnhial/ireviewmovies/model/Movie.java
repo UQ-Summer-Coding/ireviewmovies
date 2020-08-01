@@ -22,6 +22,13 @@ public class Movie {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    @Lob
+    private String description;
+
+    @Column(name = "year")
+    private Long year;
+
     @Column(name = "tmdb_movie_poster_path")
     private String tMDBMoviePosterPath;
 

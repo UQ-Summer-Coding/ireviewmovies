@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
 import java.util.Optional;
 
 @Controller
@@ -82,7 +83,9 @@ public class MovieReviewController {
         }, () -> {
             Movie newMovie = new Movie();
             newMovie.setTotalReviews(1L);
+            newMovie.setYear(movie.getReleaseDate().getLong(ChronoField.YEAR));
             newMovie.setName(movie.getTitle());
+            newMovie.setDescription(movie.getOverview());
             newMovie.setAverageRating(movieReviewService.getAverageRatingByTMDBMovieId(movieReviewDto.getTMDBMovieId()));
             newMovie.setTMDBMovieId(movieReviewDto.getTMDBMovieId());
             newMovie.setTMDBMoviePosterPath(movieReviewDto.getTMDBMoviePosterPath());

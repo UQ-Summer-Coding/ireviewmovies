@@ -34,6 +34,15 @@ public class MovieService {
      * @param pageable pagination information
      * @return list of pageable movies
      */
+    public Page<Movie> findAll(String query, Pageable pageable) {
+        return movieRepository.findAll(query, pageable);
+    }
+
+    /**
+     * Returns a paginated list of all movies reviewed
+     *
+     * @return list of pageable movies
+     */
     public Page<Movie> findAll(Pageable pageable) {
         return movieRepository.findAll(pageable);
     }

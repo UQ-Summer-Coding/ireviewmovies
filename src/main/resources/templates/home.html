@@ -1,10 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
 
+<head>
+    <title>Layout</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <form class="mt-5" method="get">
+        <div class="row align-items-center justify-content-center">
+            <div class="col-8">
+                <div class="input-group mb-3">
+                    <input th:value="${param.query} ? ${param.query} : ''" name="query"  type="text" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="submit">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div th:if="${!searchResults.isEmpty()}" class="mt-5 mb-4">
+        <div class="mt-5">
+            <div class="d-flex justify-content-center">
+                <div class="card-columns">
+                    <div th:each="i : ${#numbers.sequence(0, searchResults.getTotalElements() - 1, 1)}"
+                         th:attr="data-movie-id=${searchResults.getContent().get(i).getId()},data-movie-average-rating=${searchResults.getContent().get(i).getAverageRating()}"
+                         class="card-movie card">
+                        <img class="card-img-top" th:src="${'https://image.tmdb.org/t/p/w185' + searchResults.getContent().get(i).getTMDBMoviePosterPath()}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${searchResults.getContent().get(i).getName()}">Shrek Forever After</h5>
+                            <h6 class="text-muted" th:text="${searchResults.getContent().get(i).getYear()}">2019</h6>
+                            <p class="card-text" th:text="${ #strings.abbreviate(searchResults.getContent().get(i).getDescription(), 100)}">This is a wider card with supporting text below as a natural lead-in to additional content...</p>
+                        </div>
+                        <div class="card-footer clearfix">
+                            <div class="d-flex justify-content-center align-items-center float-left">
+                                <span class="text-muted" th:text="${searchResults.getContent().get(i).getAverageRating() + ' '}"></span><div class="d-inline" th:id="${'movie-rating-card-' + searchResults.getContent().get(i).getId() }"></div>
+                            </div>
+                            <small class="text-muted float-right" th:text="${searchResults.getContent().get(i).getTotalReviews() + ' Reviews'}">22 Reviews</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav th:if="${!searchResults.isEmpty()}">
+        <ul class="pagination justify-content-center font-weight-normal">
+            <li class="page-item" th:classappend="${searchResults.getNumber() + 1 eq 1} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/(query=${param.query},page=${searchResults.getNumber()}}"
+                   aria-label="Previous"
+                   title="Previous Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${i eq searchResults.getNumber()} ? 'active'"
+                th:each="i : ${#numbers.sequence(searchResults.getNumber() + 1, searchResults.getTotalPages() > 10 + searchResults.getNumber() ? searchResults.getNumber() + 10 : searchResults.getTotalPages(), 1)}">
+                <a class="page-link h-100" th:href="@{/(query=${param.query},page=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}"
+                   rel="tooltip"></a>
+            </li>
+            <li class="page-item disabled" th:if="${searchResults.getNumber() + 10 < searchResults.getTotalPages()}">
+                <a class="page-link svg-icon" href="#">
+                    <span data-feather="more-horizontal" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item"  th:classappend="${searchResults.getNumber() + 1 eq searchResults.getTotalPages()} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/(query=${param.query},page=${searchResults.getNumber() + 2})}"
+                   aria-label="Next"
+                   title="Next Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <script>
+
+        $(document).ready(function() {
+            $( ".card-movie" ).hover(
+                function() {
+                    $(this).addClass('shadow-lg').css('cursor', 'pointer');
+                }, function() {
+                    $(this).removeClass('shadow-lg');
+                }
+            );
+
+            initializeCardMovieAverageRating();
+        });
+    </script>
+</div>
 </body>
 </html>
