@@ -1,0 +1,1 @@
+ALTER TABLE `movie` MODIFY `total_reviews` bigint(20);

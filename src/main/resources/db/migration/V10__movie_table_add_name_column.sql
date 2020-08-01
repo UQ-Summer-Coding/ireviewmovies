@@ -1,0 +1,1 @@
+ALTER TABLE `movie` ADD COLUMN `name` VARCHAR(255) NOT NULL AFTER `tmdb_movie_id`;
