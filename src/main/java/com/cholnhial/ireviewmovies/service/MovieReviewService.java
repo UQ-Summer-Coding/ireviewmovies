@@ -47,4 +47,16 @@ public class MovieReviewService {
         return movieReviewRepository.getAverageRatingByTMDBMovieId(TMdbMovieId);
     }
 
+    /**
+     * Returns a list of reviews by TMDb movie id
+     *
+     *
+     * @param movieId The TMDB movie ID
+     * @param pageable paging information
+     * @return
+     */
+    public Page<MovieReview> findAllByTMDBMovieId(Long movieId, Pageable pageable) {
+        return movieReviewRepository.findAllBytMDBMovieId(movieId, pageable);
+    }
+
 }

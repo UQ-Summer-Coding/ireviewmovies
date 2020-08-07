@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 public interface MovieReviewRepository extends JpaRepository<MovieReview, Long> {
     Page<MovieReview> findAllByUserId(Long userId, Pageable pageable);
 
+    Page<MovieReview> findAllBytMDBMovieId(Long movieId, Pageable pageable);
+
     @Query("select avg(m.rating) from MovieReview m " +
             "where m.tMDBMovieId = :movieId group by m.tMDBMovieId")
     Float getAverageRatingByTMDBMovieId(@Param("movieId") Long TMdbMovieId);

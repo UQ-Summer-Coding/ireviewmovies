@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+    <title>Layout</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <div class="row mt-5 align-items-end mb-3">
+        <div class="col-2">
+            <img class="img-fluid" th:src="'https://image.tmdb.org/t/p/w92/' + ${movie.posterPath}" />
+        </div>
+        <div class="col-10">
+            <p class="text-muted" th:text="${movie.overview}">A movie about...</p>
+            <h6>Release: <span th:text="${#temporals.format(movie.releaseDate, 'dd MMMM yyyy')}">01 Jan 2001</span></h6>
+        </div>
+    </div>
+    <h5>Reviews</h5>
+    <div th:if="${reviews.hasContent()}">
+
+    </div>
+
+    <nav th:if="${reviews.hasContent()}">
+        <ul class="pagination justify-content-center font-weight-normal">
+            <li class="page-item" th:classappend="${reviews.number + 1 eq 1} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/reviews/${movie.getId()}/(page=${reviews.number})}"
+                   aria-label="Previous"
+                   title="Previous Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item" th:classappend="${i eq reviews.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence(reviews.number + 1, reviews.totalPages > 10 + reviews.number ? reviews.number + 10 : reviews.totalPages, 1)}">
+                <a class="page-link h-100" th:href="@{/reviews/${movie.getId()}/(page=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}"
+                   rel="tooltip"></a>
+            </li>
+            <li class="page-item disabled" th:if="${reviews.number + 10 < reviews.totalPages}">
+                <a class="page-link svg-icon" href="#">
+                    <span data-feather="more-horizontal" width="20" height="20"></span>
+                </a>
+            </li>
+
+            <li class="page-item"  th:classappend="${reviews.number + 1 eq reviews.totalPages} ? 'disabled'">
+                <a class="page-link svg-icon"
+                   th:href="@{/reviews/${movie.getId()}/(page=${reviews.number + 2})}"
+                   aria-label="Next"
+                   title="Next Page" rel="tooltip">
+                    <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>

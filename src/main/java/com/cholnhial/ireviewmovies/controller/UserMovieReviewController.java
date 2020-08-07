@@ -33,7 +33,7 @@ public class UserMovieReviewController {
                         Model model) {
 
         int currentPage = requestedPage.orElse(1);
-        int pageSize = requestedPageSize.orElse(3);
+        int pageSize = requestedPageSize.orElse(10);
 
         User currentUser = userService.getCurrentLoggedInUser();
         Page<MovieReview> movieReviewPage = this.movieReviewService.findAllByUserId(currentUser.getId(), PageRequest.of(currentPage - 1, pageSize));

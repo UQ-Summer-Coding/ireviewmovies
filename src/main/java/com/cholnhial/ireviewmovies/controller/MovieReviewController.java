@@ -9,6 +9,8 @@ import com.cholnhial.ireviewmovies.service.dto.MovieReviewDTO;
 import com.cholnhial.ireviewmovies.service.dto.TMDbMovieDTO;
 import com.cholnhial.ireviewmovies.service.mapper.MovieReviewMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -121,5 +123,23 @@ public class MovieReviewController {
         modelAndView.setStatus(HttpStatus.OK);
         modelAndView.setViewName("redirect:/user/my-reviews");
         return modelAndView;
+    }
+
+    @GetMapping("/{movieId}")
+    public String getMovieReviews(@PathVariable Long movieId,
+                                  @RequestParam("page") Optional<Integer> requestedPage,
+                                  @RequestParam("size") Optional<Integer> requestedPageSize,
+                                  Model model) {
+
+        int currentPage = requestedPage.orElse(1);
+        int pageSize = requestedPageSize.orElse(3);
+
+        Page<MovieReview> movieReviewPage = this.movieReviewService.findAllByTMDBMovieId(movieId, PageRequest.of(currentPage - 1, pageSize));
+        Page<MovieReviewDTO> reviews = movieReviewPage.map(movieReviewMapper::movieReviewToMovieReviewDto);
+        TMDbMovieDTO movie = this.tmDbMovieService.getMovieById(movieId);
+        model.addAttribute("movie", movie);
+        model.addAttribute("reviews", reviews);
+
+        return "reviews";
     }
 }
