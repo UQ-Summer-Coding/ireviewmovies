@@ -24,7 +24,9 @@
         <div class="mt-5">
             <div class="d-flex justify-content-center">
                 <div class="card-columns">
-                    <div th:each="i : ${#numbers.sequence(0, searchResults.getTotalElements() - 1, 1)}"
+                    <th:block th:each="i : ${#numbers.sequence(0, searchResults.getTotalElements() - 1, 1)}">
+                    <a class="text-decoration-none" th:href="@{/reviews/{id}(id=${searchResults.getContent().get(i).getTMDBMovieId()})}">
+                    <div
                          th:attr="data-movie-id=${searchResults.getContent().get(i).getId()},data-movie-average-rating=${searchResults.getContent().get(i).getAverageRating()}"
                          class="card-movie card">
                         <img class="card-img-top" th:src="${'https://image.tmdb.org/t/p/w185' + searchResults.getContent().get(i).getTMDBMoviePosterPath()}">
@@ -41,6 +43,8 @@
 
                         </div>
                     </div>
+                    </a>
+                    </th:block>
                 </div>
             </div>
         </div>
