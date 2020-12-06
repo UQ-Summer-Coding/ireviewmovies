@@ -37,7 +37,7 @@ $ docker-compose up -d db
 
 ### Running tests
 
-1\. You need to start the integeration tests database with docker
+1\. You need to start the integration tests database with docker
 
 Linux,Mac
 ```
