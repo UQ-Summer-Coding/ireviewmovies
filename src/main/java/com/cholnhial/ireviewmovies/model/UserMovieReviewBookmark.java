@@ -20,7 +20,7 @@ public class UserMovieReviewBookmark {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "movie_review_id", referencedColumnName = "id")
     private MovieReview movieReview;
 
