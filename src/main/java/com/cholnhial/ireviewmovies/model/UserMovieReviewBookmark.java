@@ -21,7 +21,7 @@ public class UserMovieReviewBookmark {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "movie_review_id", referencedColumnName = "id")
+    @JoinColumn(name = "movie_review_id", referencedColumnName = "id", nullable = false)
     private MovieReview movieReview;
 
     @Column(name = "created")
