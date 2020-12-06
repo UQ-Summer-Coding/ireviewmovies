@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
     public String getCurrentLoggedInUserFullName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if(authentication.getPrincipal() instanceof UserDetails) {
+        if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails user = (UserDetails) authentication.getPrincipal();
             Optional<User> ireviewMoviesUser= userRepository.findByEmail(user.getUsername());
             if(ireviewMoviesUser.isPresent()) {
@@ -56,7 +56,7 @@ public class UserService implements UserDetailsService {
     public String getCurrentLoggedInUserProfileImage() {
         Authentication authentication = SecurityUtil.getAuthentication();
 
-        if(authentication.getPrincipal() instanceof UserDetails) {
+        if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails user = (UserDetails) authentication.getPrincipal();
             Optional<User> ireviewMoviesUser= userRepository.findByEmail(user.getUsername());
             if(ireviewMoviesUser.isPresent()) {
@@ -71,7 +71,7 @@ public class UserService implements UserDetailsService {
     public User getCurrentLoggedInUser() {
         Authentication authentication = SecurityUtil.getAuthentication();
 
-        if(authentication.getPrincipal() instanceof UserDetails) {
+        if(authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails user = (UserDetails) authentication.getPrincipal();
             Optional<User> ireviewMoviesUser= userRepository.findByEmail(user.getUsername());
             if(ireviewMoviesUser.isPresent()) {
