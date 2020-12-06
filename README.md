@@ -35,4 +35,27 @@ $ docker-compose up -d db
 
 3\. The website will be available at: `http://localhost:8080/`
 
- 
+### Running tests
+
+1\. You need to start the integeration tests database with docker
+
+Linux,Mac
+```
+$ mvn docker:stop docker:start 
+```
+if above doesn't work:
+```
+$ mvn docker:stop docker:start
+```
+
+or if you are on Windows:
+```
+.\mvnw.cmd docker:stop docker:start
+```
+
+2\. Once you have the test database running you can use Intelij to run the tests or use maven verify goal.
+```
+mvn verify
+```
+That will run all the tests and show you the results in your terminal.
+
