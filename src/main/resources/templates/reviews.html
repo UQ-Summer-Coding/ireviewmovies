@@ -19,7 +19,37 @@
     </div>
     <h5>Reviews</h5>
     <div th:if="${reviews.hasContent()}">
+        <div class="card rounded mt-3">
+            <div class="card-header">
+                <img src="https://i.pravatar.cc/300" class="rounded-circle profile-avatar-img">
+                <p class="d-inline-block text-uppercase text-muted mr-3">Michael Brown</p>
+            </div>
+            <div class="card-body">
 
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet purus gravida quis blandit turpis. Dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in. Vulputate eu scelerisque felis imperdiet proin fermentum. Dolor sed viverra ipsum nunc aliquet bibendum enim. Nisi vitae suscipit tellus mauris a diam maecenas sed enim. Mauris in aliquam sem fringilla ut morbi. Ipsum faucibus vitae aliquet nec. Mi proin sed libero enim sed. Ornare suspendisse sed nisi lacus. </p>
+
+                <p>
+                    Morbi tempus iaculis urna id volutpat. Risus sed vulputate odio ut enim blandit volutpat. Nibh mauris cursus mattis molestie a iaculis at. Vestibulum morbi blandit cursus risus. Amet dictum sit amet justo. Commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae. Pharetra et ultrices neque ornare aenean euismod elementum nisi. Vivamus at augue eget arcu dictum varius duis at consectetur. Lobortis scelerisque fermentum dui faucibus in. Pharetra vel turpis nunc eget lorem dolor sed viverra. In ante metus dictum at tempor commodo ullamcorper a. Diam vel quam elementum pulvinar etiam non. Et ligula ullamcorper malesuada proin libero nunc consequat.
+                </p>
+            </div>
+            <div class="card-footer text-muted movie-review-footer">
+                <div class="float-left">
+                    <i class="fas fa-calendar"></i> <span>Posted: Today</span>
+                </div>
+                <div class="float-right">
+                    <div class="d-flex flex-row">
+                        <div class="p-2">
+                            <div id="rateYo">
+                            </div>
+                        </div>
+                        <div class="p-2 align-items-center"><span class="rating">3.6</span></div>
+                        <div class="p-2"> <i class="fas fa-bookmark bookmarked movie-review-bookmark-btn"></i></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
     <nav th:if="${reviews.hasContent()}">

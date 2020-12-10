@@ -97,3 +97,15 @@ input[type="file"] {
 .card-movie {
     max-width: 85%;
 }
+
+.rating {
+    font-size: 1.6em;
+}
+
+.bookmarked {
+    color: #b8de6f;
+}
+
+.movie-review-bookmark-btn {
+    font-size: 2.3em;
+}
