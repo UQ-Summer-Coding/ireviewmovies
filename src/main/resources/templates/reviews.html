@@ -19,7 +19,7 @@
     </div>
     <h5>Reviews</h5>
     <div th:if="${reviews.hasContent()}">
-        <div th:each="review: ${reviews.getContent()}" class="card rounded mt-3">
+        <div th:each="review: ${reviews.getContent()}"  th:attr="data-movie-review-id=${review.getId()},data-user-movie-review-rating=${review.getRating()}" class="movie-reviews-card card rounded mt-3">
             <div class="card-header">
                 <img th:src="${#strings.isEmpty(review.userProfileImage) ? '/img/default-profile-pic.png' : review.userProfileImage}" class="rounded-circle profile-avatar-img">
                 <p th:text="${ review.userFullName}" class="d-inline-block text-uppercase text-muted mr-3">Michael Brown</p>
@@ -34,10 +34,10 @@
                 <div class="float-right">
                     <div class="d-flex flex-row">
                         <div class="p-2">
-                            <div id="rateYo">
+                            <div th:id="${'movie-reviews-card-rating-' + review.getId()}">
                             </div>
                         </div>
-                        <div class="p-2 align-items-center"><span class="rating">3.6</span></div>
+                        <div class="p-2 align-items-center"><span th:text="${review.rating}" class="rating">3.6</span></div>
                         <div class="p-2"> <i class="fas fa-bookmark bookmarked movie-review-bookmark-btn"></i></div>
                     </div>
 
@@ -79,6 +79,9 @@
             </li>
         </ul>
     </nav>
+    <script>
+        initializeMovieReviewsRating();
+    </script>
 </div>
 </body>
 </html>

@@ -62,6 +62,18 @@ function initializeUserMovieReviewsTableStarRatings() {
     });
 }
 
+function initializeMovieReviewsRating() {
+    $(".movie-reviews-card").each(function(index) {
+
+        const movieReviewId = $(this).data('movie-review-id');
+        const userMovieReviewRating = $(this).data('user-movie-review-rating');
+        $("#movie-reviews-card-rating-" + movieReviewId).rateYo({
+            rating: userMovieReviewRating,
+            readOnly: true
+        });
+    });
+}
+
 function initializeCardMovieAverageRating() {
     $(".card-movie").each(function(index) {
 
