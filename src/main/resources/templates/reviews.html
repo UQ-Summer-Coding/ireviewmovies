@@ -21,8 +21,8 @@
     <div th:if="${reviews.hasContent()}">
         <div th:each="review: ${reviews.getContent()}" class="card rounded mt-3">
             <div class="card-header">
-                <img src="https://i.pravatar.cc/300" class="rounded-circle profile-avatar-img">
-                <p class="d-inline-block text-uppercase text-muted mr-3">Michael Brown</p>
+                <img th:src="${#strings.isEmpty(review.userProfileImage) ? '/img/default-profile-pic.png' : review.userProfileImage}" class="rounded-circle profile-avatar-img">
+                <p th:text="${ review.userFullName}" class="d-inline-block text-uppercase text-muted mr-3">Michael Brown</p>
             </div>
             <div class="card-body">
                 <p th:text="${review.reviewText}">I am a review</p>
