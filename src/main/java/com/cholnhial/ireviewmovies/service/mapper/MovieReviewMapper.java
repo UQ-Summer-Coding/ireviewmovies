@@ -34,6 +34,8 @@ public class MovieReviewMapper {
         movieReviewDto.setLikes(movieReview.getLikes());
         movieReviewDto.setRating(movieReview.getRating());
         movieReviewDto.setCreated(movieReview.getCreatedDateTime());
+        movieReviewDto.setUserFullName(movieReview.getUser().getFullName());
+        movieReviewDto.setUserProfileImage(movieReview.getUser().getProfileImage());
 
         return movieReviewDto;
     }
