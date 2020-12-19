@@ -29,7 +29,7 @@
             </div>
             <div class="card-footer text-muted movie-review-footer">
                 <div class="float-left">
-                    <i class="fas fa-calendar"></i> <span>Posted: Today</span>
+                    <i class="fas fa-calendar"></i> <span>Posted: <span th:text="${review.prettyTimeCreatedDate}">Today</span></span>
                 </div>
                 <div class="float-right">
                     <div class="d-flex flex-row">

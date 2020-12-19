@@ -20,6 +20,8 @@ public class MovieReviewDTO {
 
     private String userProfileImage;
 
+    private String prettyTimeCreatedDate;
+
     @NotBlank(message = "You need to write something")
     private String reviewText;
 
