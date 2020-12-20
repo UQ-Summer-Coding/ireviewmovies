@@ -2,8 +2,10 @@ package com.cholnhial.ireviewmovies.service.mapper;
 
 import com.cholnhial.ireviewmovies.model.MovieReview;
 import com.cholnhial.ireviewmovies.service.dto.MovieReviewDTO;
+import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,10 @@ public class MovieReviewMapper {
         movieReviewDto.setLikes(movieReview.getLikes());
         movieReviewDto.setRating(movieReview.getRating());
         movieReviewDto.setCreated(movieReview.getCreatedDateTime());
+        movieReviewDto.setUserFullName(movieReview.getUser().getFullName());
+        PrettyTime pt = new PrettyTime(Date.from(java.time.ZonedDateTime.now().toInstant()));
+        movieReviewDto.setPrettyTimeCreatedDate(pt.format(Date.from(movieReview.getCreatedDateTime().toInstant())));
+        movieReviewDto.setUserProfileImage(movieReview.getUser().getProfileImage());
 
         return movieReviewDto;
     }
