@@ -16,6 +16,12 @@ public class MovieReviewDTO {
 
     private String tMDBMoviePosterPath;
 
+    private String userFullName;
+
+    private String userProfileImage;
+
+    private String prettyTimeCreatedDate;
+
     @NotBlank(message = "You need to write something")
     private String reviewText;
 

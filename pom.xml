@@ -278,6 +278,11 @@
 					<artifactId>spring-boot-devtools</artifactId>
 					<optional>true</optional>
 				</dependency>
+				<dependency>
+					<groupId>org.ocpsoft.prettytime</groupId>
+					<artifactId>prettytime</artifactId>
+					<version>4.0.5.Final</version>
+				</dependency>
 			</dependencies>
 			<properties>
 				<!-- default Spring profiles -->
