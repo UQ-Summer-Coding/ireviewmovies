@@ -40,4 +40,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     Set<MovieReview> reviews;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    Set<UserMovieReviewBookmark> bookmarks;
 }

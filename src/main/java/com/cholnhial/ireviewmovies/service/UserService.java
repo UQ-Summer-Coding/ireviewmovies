@@ -38,6 +38,16 @@ public class UserService implements UserDetailsService {
         return userRepository.findByEmail(email);
     }
 
+    /**
+     * Fina a user by their id
+     *
+     * @param id the user's id
+     * @return Optional with user inside or empty if none found
+     */
+    public Optional<User> findOneById(Long id) {
+        return userRepository.findById(id);
+    }
+
     public String getCurrentLoggedInUserFullName() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
