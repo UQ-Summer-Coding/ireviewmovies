@@ -4,6 +4,7 @@ import com.cholnhial.ireviewmovies.model.MovieReview;
 import com.cholnhial.ireviewmovies.model.User;
 import com.cholnhial.ireviewmovies.model.UserMovieReviewBookmark;
 import com.cholnhial.ireviewmovies.repository.UserMovieReviewBookmarkRepository;
+import com.cholnhial.ireviewmovies.service.exception.AlreadyBookmarkedException;
 import com.cholnhial.ireviewmovies.service.exception.MovieReviewNotFoundException;
 import com.cholnhial.ireviewmovies.service.exception.UserNotFoundException;
 import org.flywaydb.core.Flyway;
@@ -116,9 +117,11 @@ class UserMovieReviewBookmarkServiceTest {
             try {
                 userMovieReviewBookmarkService.bookmarkReview(user.get().getId(), 1L);
                 fail("Duplicate bookmark inserted");
-            } catch (Exception e) {
+            } catch (AlreadyBookmarkedException e) {
                 Page<UserMovieReviewBookmark> bookmarks = userMovieReviewBookmarkService.findMovieReviewBookmarksByUserId(1L, PageRequest.of(0, 10));
                 assertThat(bookmarks.getContent(), hasSize(1));
+            } catch (Exception e) {
+                fail("Unexpected exception: " + e.getMessage());
             }
         } else {
             fail("User not found.");
