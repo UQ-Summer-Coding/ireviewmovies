@@ -38,7 +38,13 @@
                             </div>
                         </div>
                         <div class="p-2 align-items-center"><span th:text="${review.rating}" class="rating">3.6</span></div>
-                        <div class="p-2"> <i class="fas fa-bookmark bookmarked movie-review-bookmark-btn"></i></div>
+                        <form th:id="${'review-bookmark-btn-form-' + review.id}" th:action="${'/reviews/' + review.id + '/toggle-bookmark'}" th:method="post">
+                            <div class="movie-review-bookmark-btn-wrapper"> <i
+                                    th:onclick="'onAddToBookmarksBtnClicked(' + ${review.id} + ')'"
+                                    th:classappend="${@userMovieReviewBookmarkService.isReviewAlreadyBookmarked(@userService.getCurrentLoggedInUser().getId(), review.id)} ? 'bookmarked' : 'not-bookmarked' "
+                                    th:id="${'review-bookmark-btn-icon-' + review.id}"
+                                    class="fas fa-bookmark  movie-review-bookmark-btn"></i></div>
+                        </form>
                     </div>
 
                 </div>
@@ -81,6 +87,32 @@
     </nav>
     <script>
         initializeMovieReviewsRating();
+        function onAddToBookmarksBtnClicked(reviewId) {
+
+            const postUrl = $('#review-bookmark-btn-form-' + reviewId).attr("action");
+            const postMethod = $('#review-bookmark-btn-form-' + reviewId).attr("method");
+            const formData = $('#review-bookmark-btn-form-' + reviewId).serialize();
+
+            $.ajax({
+                url: postUrl,
+                type: postMethod,
+                data: formData,
+            }).done(function (response) {
+                if ($('#review-bookmark-btn-icon-' + reviewId).hasClass('not-bookmarked')) {
+                    $('#review-bookmark-btn-icon-' + reviewId).removeClass('not-bookmarked');
+                    $('#review-bookmark-btn-icon-' + reviewId).addClass('bookmarked');
+                    toastr.success('Bookmarked saved successfully', 'Your bookmark has been saved!');
+                } else {
+                    $('#review-bookmark-btn-icon-' + reviewId).removeClass('bookmarked');
+                    $('#review-bookmark-btn-icon-' + reviewId).addClass('not-bookmarked');
+                    toastr.success('Bookmarked removed successfully', 'Your bookmark has been removed!');
+                }
+
+            }).fail(function (response) {
+                toastr.error('Unable to save bookmark', 'There was an issue saving your bookmark.');
+            });
+
+        }
     </script>
 </div>
 </body>

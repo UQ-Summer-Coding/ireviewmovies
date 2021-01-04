@@ -2,11 +2,14 @@ package com.cholnhial.ireviewmovies.controller;
 
 import com.cholnhial.ireviewmovies.model.Movie;
 import com.cholnhial.ireviewmovies.model.MovieReview;
-import com.cholnhial.ireviewmovies.service.MovieReviewService;
-import com.cholnhial.ireviewmovies.service.MovieService;
-import com.cholnhial.ireviewmovies.service.TMDbMovieService;
+import com.cholnhial.ireviewmovies.model.UserMovieReviewBookmark;
+import com.cholnhial.ireviewmovies.service.*;
 import com.cholnhial.ireviewmovies.service.dto.MovieReviewDTO;
 import com.cholnhial.ireviewmovies.service.dto.TMDbMovieDTO;
+import com.cholnhial.ireviewmovies.service.exception.AlreadyBookmarkedException;
+import com.cholnhial.ireviewmovies.service.exception.BookmarkNotFoundException;
+import com.cholnhial.ireviewmovies.service.exception.MovieReviewNotFoundException;
+import com.cholnhial.ireviewmovies.service.exception.UserNotFoundException;
 import com.cholnhial.ireviewmovies.service.mapper.MovieReviewMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,6 +35,8 @@ public class MovieReviewController {
     private final MovieReviewMapper movieReviewMapper;
     private final MovieReviewService movieReviewService;
     private final MovieService movieService;
+    private final UserMovieReviewBookmarkService userMovieReviewBookmarkService;
+    private final UserService userService;
 
 
     @ModelAttribute("movieReview")
@@ -141,5 +146,30 @@ public class MovieReviewController {
         model.addAttribute("reviews", reviews);
 
         return "reviews";
+    }
+
+    @PostMapping("/{reviewId}/toggle-bookmark")
+    public ModelAndView markAsReview(@PathVariable("reviewId") Long reviewId) {
+        Long userId = userService.getCurrentLoggedInUser().getId();
+        ModelAndView modelAndView = new ModelAndView("reviews");
+
+        if (userMovieReviewBookmarkService.isReviewAlreadyBookmarked(userId, reviewId)) {
+            try {
+                userMovieReviewBookmarkService.removeBookmark(userId, reviewId);
+            } catch (BookmarkNotFoundException e) {
+               modelAndView.setViewName("error");
+               modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            try {
+                userMovieReviewBookmarkService.bookmarkReview(userId, reviewId);
+            } catch (Exception e) {
+                modelAndView.setViewName("error");
+                modelAndView.setStatus(HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        modelAndView.setStatus(HttpStatus.OK);
+        return modelAndView;
     }
 }
