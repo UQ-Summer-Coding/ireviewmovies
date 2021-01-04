@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layout/layout">
+
+<head>
+    <title>Layout</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <h2 class="text-center mt-3">My Bookmarks</h2>
+    <div th:if="${bookmarks.hasContent()}">
+        <div th:each="bookmark: ${bookmarks.getContent()}"  th:attr="data-movie-bookmark-review-id=${bookmark.movieReview.getId()},data-bookmark-movie-review-rating=${bookmark.movieReview.getRating()}" class="movie-reviews-card card rounded mt-3">
+            <div class="card-header">
+                <img th:src="${#strings.isEmpty(bookmark.movieReview.user.profileImage) ? '/img/default-profile-pic.png' : bookmark.movieReview.user.profileImage}" class="rounded-circle profile-avatar-img">
+                <p th:text="${ bookmark.movieReview.user.fullName}" class="d-inline-block text-uppercase text-muted mr-3">Michael Brown</p>
+            </div>
+            <div class="card-body">
+                <p th:text="${bookmark.movieReview.reviewText}">I am a review</p>
+            </div>
+            <div class="card-footer text-muted movie-review-footer">
+                <div class="float-left">
+                    <i class="fas fa-calendar"></i> <span>Bookmarked: <span>Today</span></span>
+                </div>
+                <div class="float-right">
+                    <div class="d-flex flex-row">
+                        <div class="p-2">
+                            <div th:id="${'movie-reviews-card-rating-' + bookmark.movieReview.getId()}">
+                            </div>
+                        </div>
+
+                        <form th:id="${'review-bookmark-remove-btn-form-' + bookmark.id}" th:action="${'/reviews/' + bookmark.id + '/toggle-bookmark'}" th:method="post">
+                           <button class="btn btn-danger"><i class="fas fa-trash"> REMOVE</i></button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
